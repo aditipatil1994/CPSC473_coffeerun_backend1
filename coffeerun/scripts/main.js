@@ -1,4 +1,4 @@
-(function (window) {
+(function(window) {
   "use strict";
   var FORM_SELECTOR = "[data-coffee-order='form']";
   var CHECKLIST_SELECTOR = "[data-coffee-order='checklist']";
@@ -14,14 +14,22 @@
   var myTruck = new Truck("ncc-1701", remoteDS);
   window.myTruck = myTruck;
   var checkList = new CheckList(CHECKLIST_SELECTOR);
-  checkList.addClickHandler(myTruck.deliverOrder.bind(myTruck));
+  //checkList.addClickHandler(myTruck.deliverOrder.bind(myTruck));
+  checkList.addClickHandler(remoteDS.remove.bind(remoteDS));
   var formHandler = new FormHandler(FORM_SELECTOR);
 
-  formHandler.addSubmitHandler(function (data) {
+  formHandler.addSubmitHandler(function(data) {
     myTruck.createOrder(data);
     checkList.addRow(data);
   });
-
+  /**/
+  remoteDS.getAll(function(data) {
+    //myTruck.createOrder.call(myTruck, data);
+    for (var i = 0; i < data.length; i++) {
+      checkList.addRow.call(checkList, data[i]);
+    }
+  });
+  /**/
   formHandler.addInputHandler(Validation.isCompanyEmail);
 
   console.log(formHandler);

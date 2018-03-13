@@ -1,4 +1,4 @@
-(function (window) {
+(function(window) {
   "use strict";
 
   var App = window.App || {};
@@ -15,15 +15,15 @@
     }
   }
 
-  CheckList.prototype.addClickHandler = function (fn) {
-    this.$element.on("click", "input", function (event) {
+  CheckList.prototype.addClickHandler = function(fn) {
+    this.$element.on("click", "input", function(event) {
       var email = event.target.value;
       this.removeRow(email);
       fn(email);
     }.bind(this));
   };
 
-  CheckList.prototype.addRow = function (coffeeOrder) {
+  CheckList.prototype.addRow = function(coffeeOrder) {
     this.removeRow(coffeeOrder.emailAddress);
 
     var rowElement = new Row(coffeeOrder);
@@ -31,11 +31,12 @@
     this.$element.append(rowElement.$element);
   };
 
-  CheckList.prototype.removeRow = function (email) {
+  CheckList.prototype.removeRow = function(email) {
     this.$element
-      .find("[value=' + email + ']")
+      .find("[value='" + email + "']")
       .closest("[data-coffee-order='checkbox']")
       .remove();
+    //App.remoteDS.remove(email);
   };
 
   function Row(coffeeOrder) {
@@ -48,7 +49,7 @@
 
     var $checkbox = $("<input></input>", {
       type: "checkbox",
-      value: coffeeOrder.emailAddress
+      value: coffeeOrder.id
     });
 
     var description = coffeeOrder.size + " ";
